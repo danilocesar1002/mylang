@@ -2,6 +2,11 @@
 #include "token.hh"
 
 Lexer::Lexer(std::wstring source_) : source(source_) {
+<<<<<<< HEAD
+=======
+    current_character = NULL;
+
+>>>>>>> 6b8987bb3f4b5a0654539df29d85c0e4554cfbfb
     position = read_position
              = line
              = column
@@ -33,6 +38,7 @@ Token Lexer::next_token() {
             token.type = TokenType::EOL;
             column = -1;
             line++;
+<<<<<<< HEAD
             break;
         case L'>':
             if      (peek_character() == L'=') {
@@ -47,6 +53,22 @@ Token Lexer::next_token() {
                 token.type = TokenType::GT;
             }
             break;
+=======
+            break;
+        case L'>':
+            if      (peek_character() == L'=') {
+                token.type = TokenType::GT_OR_EQ;
+                read_character();
+            }
+            else if (peek_character() == L'>') {
+                token.type = TokenType::RSHIFT;
+                read_character();
+            }
+            else {
+                token.type = TokenType::GT;
+            }
+            break;
+>>>>>>> 6b8987bb3f4b5a0654539df29d85c0e4554cfbfb
         case L'<':
             if      (peek_character() == L'=') {
                 token.type = TokenType::LT_OR_EQ;
@@ -97,7 +119,11 @@ Token Lexer::next_token() {
 
 void Lexer::read_character() {
     if (read_position >= source.length())
+<<<<<<< HEAD
         current_character = EOF;
+=======
+        current_character = NULL;
+>>>>>>> 6b8987bb3f4b5a0654539df29d85c0e4554cfbfb
     else
         current_character = source[read_position];
     
@@ -105,6 +131,7 @@ void Lexer::read_character() {
     read_position++;
 
     column++;
+<<<<<<< HEAD
 }
 
 wchar_t Lexer::peek_character() {
@@ -118,6 +145,21 @@ bool Lexer::is_number(wchar_t chr) {
     return L'0' <= chr && chr <= L'9';
 }
 
+=======
+}
+
+wchar_t Lexer::peek_character() {
+    if (read_position >= source.length())
+        return NULL;
+    
+    return source[read_position];
+}
+
+bool Lexer::is_number(wchar_t chr) {
+    return L'0' <= chr && chr <= L'9';
+}
+
+>>>>>>> 6b8987bb3f4b5a0654539df29d85c0e4554cfbfb
 bool Lexer::is_letter(wchar_t chr) {
     std::wstring permitted_chars = L"áéíóúÁÉÍÓÚñÑ";
     
