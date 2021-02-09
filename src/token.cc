@@ -1,2 +1,2 @@
-#include "token.h"
+#include "token.hh"
 Token::Token() {};
