@@ -1,11 +1,16 @@
+#ifndef INCLUDE_TOKEN_H
+#define INCLUDE_TOKEN_H
+
 #include <string>
 
 enum class TokenType: int
 {
     ASSIGN,
     COMMA,
+    COLON,
     DIVISION,
     DO,
+    EOL,
     FALSE,
     FOR,
     IDENT,
@@ -24,8 +29,11 @@ enum class TokenType: int
 class Token
 {
 public:
-    Token(TokenType type_, std::string literal_);
+    Token();
 
-    std::string literal;
     TokenType type;
+    int line;
+    int column;
 };
+
+#endif
