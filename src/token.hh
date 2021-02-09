@@ -1,5 +1,5 @@
-#ifndef INCLUDE_TOKEN_H
-#define INCLUDE_TOKEN_H
+#ifndef INCLUDE_TOKEN_HH
+#define INCLUDE_TOKEN_HH
 
 #include <string>
 
@@ -11,16 +11,23 @@ enum class TokenType: int
     DIVISION,
     DO,
     EOL,
+    EQUALS,
     FALSE,
     FOR,
+    GT,
+    GT_OR_EQ,
     IDENT,
     IF,
     ILLEGAL,
+    LT,
+    LT_OR_EQ,
     MINUS,
     MULTIPLICATION,
     LPAREN,
+    LSHIFT,
     PLUS,
     RPAREN,
+    RSHIFT,
     TAB,
     TRUE,
     WHILE
@@ -32,8 +39,8 @@ public:
     Token();
 
     TokenType type;
-    int line;
-    int column;
+    std::wstring literal;
+    int line, column;
 };
 
 #endif
