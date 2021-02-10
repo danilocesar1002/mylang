@@ -1,5 +1,5 @@
-#ifndef INCLUDE_PARSER_HH
-#define INCLUDE_PARSER_HH
+#ifndef INCLUDE_AST_HH
+#define INCLUDE_AST_HH
 
 #include "token.hh"
 
