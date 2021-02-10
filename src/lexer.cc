@@ -6,7 +6,7 @@ Lexer::Lexer(std::wstring source_) : source(source_) {
              = line
              = 0;
     
-    column = -1; //read_character() will put in 0
+    column = -1; //read_character() will put it in 0
     read_character();
 };
 
