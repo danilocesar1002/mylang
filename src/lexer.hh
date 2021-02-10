@@ -10,8 +10,8 @@ public:
     Token next_token();
 
 private:
-    void skip_whitespace();
     void read_character();
+    void skip_whitespace();
     wchar_t peek_character();
 
     bool is_number(wchar_t chr);

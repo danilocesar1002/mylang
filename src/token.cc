@@ -1,2 +1,2 @@
 #include "token.hh"
-Token::Token() {};
+Token::Token() : literal(L"") {};

@@ -19,6 +19,7 @@ enum class TokenType: int
     IDENT,
     IF,
     ILLEGAL,
+    INT,
     LT,
     LT_OR_EQ,
     MINUS,
