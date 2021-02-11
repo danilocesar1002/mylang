@@ -7,7 +7,7 @@ Identifier::Identifier(Token token, std::wstring value) {
 }
 
 
-LetStatement::LetStatement(Token token, Identifier *name = NULL, Expression* value = NULL) {
+LetStatement::LetStatement(Token token, Identifier *name, Expression* value) {
     type = ASTNodeType::LetStatement;
     this->token = token;
     this->name = name;

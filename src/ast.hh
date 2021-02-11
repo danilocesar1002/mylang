@@ -37,17 +37,6 @@ public:
 };
 
 
-class LetStatement: public Statement
-{
-public:
-    Token token;
-    Identifier *name;
-    Expression* value;
-
-    LetStatement(Token token, Identifier *name = NULL, Expression* value = NULL);
-};
-
-
 class Program: public ASTNode
 {
 public:
@@ -61,6 +50,16 @@ class Statement: public ASTNode
 {
 public:
     Token token;
+};
+
+
+class LetStatement: public Statement
+{
+public:
+    Identifier *name;
+    Expression *value;
+
+    LetStatement(Token token, Identifier *name = NULL, Expression* value = NULL);
 };
 
 #endif
