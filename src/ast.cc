@@ -1,6 +1,21 @@
 #include "ast.hh"
 
-Expression::Expression(Token token) {
+Identifier::Identifier(Token token, std::wstring value) {
+    type = ASTNodeType::Identifier;
     this->token = token;
-    type = ASTNodeType::Expression;
+    this->value = value;
+}
+
+
+LetStatement::LetStatement(Token token, Identifier *name = NULL, Expression* value = NULL) {
+    type = ASTNodeType::LetStatement;
+    this->token = token;
+    this->name = name;
+    this->value = value;
+}
+
+
+Program::Program() {
+    expressions = std::vector<Expression* >();
+    type = ASTNodeType::Program;
 }
