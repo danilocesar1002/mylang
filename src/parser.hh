@@ -17,6 +17,8 @@ private:
     void advance_tokens();
     bool expected_token(TokenType token_type);
     Expression* parse_expression();
+    Expression* parse_assignment();
+    Expression* parse_integer();
 };
 
 #endif

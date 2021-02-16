@@ -14,7 +14,7 @@ Program Parser::parse_program() {
     while (current_token.type != TokenType::EOFILE) {
         Expression *expression = parse_expression();
 
-        if (expression != NULL)
+        if (expression != nullptr)
             program.expressions.push_back(expression);
     }
 
@@ -36,6 +36,28 @@ bool Parser::expected_token(TokenType token_type) {
 }
 
 Expression* Parser::parse_expression() {
+    if (current_token.type == TokenType::IDENT && peek_token.type == TokenType::ASSIGN)
+        return parse_assignment();
+    if (current_token.type == TokenType::INT)
+        return parse_integer();
     
-     
+    return nullptr; 
+}
+
+Expression* Parser::parse_assignment() {
+    Identifier *ident = new Identifier(current_token, NULL);
+    
+    advance_tokens();
+    advance_tokens();
+    
+    ident->value = parse_expression();
+    return ident;
+}
+
+
+Expression* Parser::parse_integer() {
+    Integer *integer = new Integer(current_token);
+    advance_tokens();
+
+    return integer;
 }

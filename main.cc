@@ -1,17 +1,18 @@
+#include "src/ast.hh"
 #include "src/lexer.hh"
+#include "src/parser.hh"
 #include "src/token.hh"
+
 
 #include <iostream>
 
 int main () {
     Lexer lexer = Lexer(L"abc = 4");
-    Token tokens[5];
-    tokens[0] = lexer.next_token();
+    Parser parser = Parser(lexer);
 
-    for (int i = 0; i < 5 - 1 && tokens[i].type != TokenType::EOFILE; i++) {
-        std::wcout << (int)tokens[i].type << ' ' << tokens[i].literal << L'\n';
-        tokens[i + 1] = lexer.next_token();
-    }
+    Program program = parser.parse_program();
+
+    std::wcout << program.expressions.size() << L'\n';
 
     return 0;
 }

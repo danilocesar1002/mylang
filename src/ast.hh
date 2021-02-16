@@ -31,9 +31,18 @@ public:
 class Identifier: public Expression
 {
 public:
-    Identifier(Token token, std::wstring value);
+    Identifier(Token token, Expression *value);
 
-    std::wstring value;
+    Expression *value;
+};
+
+
+class Integer: public Expression
+{
+public:
+    Integer(Token token);
+private:
+    long long value;
 };
 
 
