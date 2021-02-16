@@ -7,7 +7,8 @@
 enum class ASTNodeType: int
 {
     Expression,
-    Identifier,
+    Assignment,
+    Integer,
     LetStatement,
     Program,
     Statement
@@ -28,10 +29,10 @@ public:
 };
 
 
-class Identifier: public Expression
+class Assignment: public Expression
 {
 public:
-    Identifier(Token token, Expression *value);
+    Assignment(Token token, Expression *value);
 
     Expression *value;
 };
@@ -41,7 +42,6 @@ class Integer: public Expression
 {
 public:
     Integer(Token token);
-private:
     long long value;
 };
 

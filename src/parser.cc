@@ -45,7 +45,7 @@ Expression* Parser::parse_expression() {
 }
 
 Expression* Parser::parse_assignment() {
-    Identifier *ident = new Identifier(current_token, NULL);
+    Assignment *ident = new Assignment(current_token, NULL);
     
     advance_tokens();
     advance_tokens();

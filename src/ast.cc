@@ -1,7 +1,7 @@
 #include "ast.hh"
 
-Identifier::Identifier(Token token, Expression *value) {
-    type = ASTNodeType::Identifier;
+Assignment::Assignment(Token token, Expression *value) {
+    type = ASTNodeType::Assignment;
     this->token = token;
     this->value = value;
 }
@@ -14,5 +14,6 @@ Program::Program() {
 
 
 Integer::Integer(Token token) {
+    type = ASTNodeType::Integer;
     value = std::stoi(token.literal);
 }
