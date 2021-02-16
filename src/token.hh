@@ -5,6 +5,7 @@
 
 enum class TokenType: int
 {
+    EOFILE = -1,
     ASSIGN,
     COMMA,
     COLON,

@@ -7,14 +7,6 @@ Identifier::Identifier(Token token, std::wstring value) {
 }
 
 
-LetStatement::LetStatement(Token token, Identifier *name, Expression* value) {
-    type = ASTNodeType::LetStatement;
-    this->token = token;
-    this->name = name;
-    this->value = value;
-}
-
-
 Program::Program() {
     expressions = std::vector<Expression* >();
     type = ASTNodeType::Program;

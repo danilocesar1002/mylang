@@ -11,6 +11,12 @@ public:
     Program parse_program();
 private:
     Lexer lexer;
+    Token current_token;
+    Token peek_token;
+
+    void advance_tokens();
+    bool expected_token(TokenType token_type);
+    Expression* parse_expression();
 };
 
 #endif

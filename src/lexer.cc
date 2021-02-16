@@ -1,5 +1,6 @@
 #include "lexer.hh"
 #include "token.hh"
+#include <iostream>
 
 Lexer::Lexer(std::wstring source_) : source(source_) {
     position = read_position
@@ -14,6 +15,8 @@ Token Lexer::next_token() {
     skip_whitespace();
 
     Token token;
+
+
     switch (current_character) {
         case L'=':
             if (peek_character() == L'=') {
@@ -97,6 +100,10 @@ Token Lexer::next_token() {
             token.literal = L"\t";
             token.type = TokenType::TAB;
             break;
+        case WEOF:
+            token.literal = WEOF;
+            token.type = TokenType::EOFILE;
+            break;
         default:
             if      (is_number(current_character)) {
                 token.type = TokenType::INT;
@@ -112,6 +119,9 @@ Token Lexer::next_token() {
             break;
     }
 
+    token.line = line;
+    token.column = column;
+
     read_character();
 
     return token;
@@ -119,7 +129,7 @@ Token Lexer::next_token() {
 
 void Lexer::read_character() {
     if (read_position >= source.length())
-        current_character = EOF;
+        current_character = WEOF;
     else
         current_character = source[read_position];
     
@@ -136,7 +146,7 @@ void Lexer::skip_whitespace() {
 
 wchar_t Lexer::peek_character() {
     if (read_position >= source.length())
-        return EOF;
+        return WEOF;
     
     return source[read_position];
 }
