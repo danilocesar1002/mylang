@@ -2,6 +2,7 @@
 #define INCLUDE_LEXER_HH
 
 #include "token.hh"
+#include <unordered_map>
 
 class Lexer
 {
@@ -24,6 +25,12 @@ private:
     wchar_t current_character;
     unsigned int read_position, position;
              int line, column;
+
+    std::unordered_map<std::wstring, TokenType> KEYWORDS = {
+        {L"si", TokenType::IF},
+        {L"para", TokenType::FOR},
+        {L"mientras", TokenType::WHILE}
+    };
 };
 
 #endif

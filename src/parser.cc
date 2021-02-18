@@ -45,10 +45,15 @@ Expression* Parser::parse_expression() {
 }
 
 Expression* Parser::parse_assignment() {
+    if (current_token.type != TokenType::IDENT)
+        return nullptr;
+    
     Assignment *ident = new Assignment(current_token, NULL);
     
-    advance_tokens();
-    advance_tokens();
+    if (expected_token(TokenType::ASSIGN))
+        advance_tokens();
+    else
+        return nullptr;
     
     ident->value = parse_expression();
     return ident;

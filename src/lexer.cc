@@ -1,6 +1,6 @@
 #include "lexer.hh"
 #include "token.hh"
-#include <iostream>
+
 
 Lexer::Lexer(std::wstring source_) : source(source_) {
     position = read_position
@@ -110,8 +110,12 @@ Token Lexer::next_token() {
                 token.literal = read_number();
             }
             else if (is_letter(current_character)) {
-                token.type = TokenType::IDENT;
                 token.literal = read_identifier();
+
+                if (KEYWORDS.find(token.literal) != KEYWORDS.end())
+                    token.type = KEYWORDS[token.literal];
+                else
+                    token.type = TokenType::IDENT;
             }
             else {
                 token.type = TokenType::ILLEGAL;
