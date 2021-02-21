@@ -48,6 +48,15 @@ public:
 };
 
 
+class Block: public ASTNode
+{
+public:
+    std::vector<Expression* > expressions;
+
+    Block();
+};
+
+
 class If: public Expression
 {
 public:
@@ -55,15 +64,6 @@ public:
     Expression* condition;
     Block* consequence;
     Block* alternative;
-};
-
-
-class Block: public ASTNode
-{
-public:
-    std::vector<Expression* > expressions;
-
-    Block();
 };
 
 
