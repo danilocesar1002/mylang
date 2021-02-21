@@ -40,7 +40,8 @@ Expression* Parser::parse_expression() {
         return parse_assignment();
     if (current_token.type == TokenType::INT)
         return parse_integer();
-    
+    if (current_token.type == TokenType::IF)
+        return parse_if_expression();    
     return nullptr; 
 }
 
@@ -59,10 +60,32 @@ Expression* Parser::parse_assignment() {
     return ident;
 }
 
-
 Expression* Parser::parse_integer() {
+    if (current_token.type != TokenType::INT)
+        return nullptr;
+    
     Integer *integer = new Integer(current_token);
     advance_tokens();
 
     return integer;
+}
+
+Expression* Parser::parse_if_expression() {
+    if (current_token.type != TokenType::IF)
+        return nullptr;
+    
+    If* new_if = new If();
+    new_if->condition = parse_expression();
+    new_if->consequence = parse_block();
+
+    if (!expected_token(TokenType::ELSE))
+        return nullptr;
+    
+    new_if->alternative = parse_block();
+    
+    return new_if;
+}
+
+Block* Parser::parse_block() {
+    return nullptr;
 }

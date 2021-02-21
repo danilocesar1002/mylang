@@ -44,7 +44,6 @@ Token Lexer::next_token() {
         case L'\n':
             token.literal = L"\n";
             token.type = TokenType::EOL;
-            column = -1;
             line++;
             break;
         case L'>':
@@ -141,6 +140,9 @@ void Lexer::read_character() {
     read_position++;
 
     column++;
+
+    if (read_position < source.length() && current_character == L'\n')
+        line = 0;
 }
 
 void Lexer::skip_whitespace() {

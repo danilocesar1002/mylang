@@ -19,6 +19,8 @@ private:
     Expression* parse_expression();
     Expression* parse_assignment();
     Expression* parse_integer();
+    Expression* parse_if_expression();
+    Block* parse_block();
 };
 
 #endif

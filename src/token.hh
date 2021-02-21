@@ -12,6 +12,7 @@ enum class TokenType: int
     DIVISION,
     DO,
     EOL,
+    ELSE,
     EQUALS,
     FALSE,
     FOR,

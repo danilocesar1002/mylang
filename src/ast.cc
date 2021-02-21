@@ -17,3 +17,13 @@ Integer::Integer(Token token) {
     type = ASTNodeType::Integer;
     value = std::stoi(token.literal);
 }
+
+
+Block::Block() {
+    type = ASTNodeType::Block;
+}
+
+
+If::If() {
+    type = ASTNodeType::If;
+}

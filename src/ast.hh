@@ -8,6 +8,8 @@ enum class ASTNodeType: int
 {
     Expression,
     Assignment,
+    Block,
+    If,
     Integer,
     LetStatement,
     Program,
@@ -43,6 +45,25 @@ class Integer: public Expression
 public:
     Integer(Token token);
     long long value;
+};
+
+
+class If: public Expression
+{
+public:
+    If();
+    Expression* condition;
+    Block* consequence;
+    Block* alternative;
+};
+
+
+class Block: public ASTNode
+{
+public:
+    std::vector<Expression* > expressions;
+
+    Block();
 };
 
 
