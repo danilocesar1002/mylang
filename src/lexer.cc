@@ -183,8 +183,9 @@ std::wstring Lexer::read_number() {
 std::wstring Lexer::read_identifier() {
     unsigned int first = position;
 
-    while (is_letter(current_character))
+    do
         read_character();
+    while (is_letter(current_character) || is_number(current_character));
     
     return source.substr(first, position);
 }
