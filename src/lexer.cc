@@ -142,7 +142,7 @@ void Lexer::read_character() {
     column++;
 
     if (read_position < source.length() && current_character == L'\n')
-        line = 0;
+        column = 0;
 }
 
 void Lexer::skip_whitespace() {
