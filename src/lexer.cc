@@ -15,7 +15,8 @@ Token Lexer::next_token() {
     skip_whitespace();
 
     Token token;
-
+    token.line = line;
+    token.column = column;
 
     switch (current_character) {
         case L'=':
@@ -44,7 +45,6 @@ Token Lexer::next_token() {
         case L'\n':
             token.literal = L"\n";
             token.type = TokenType::EOL;
-            line++;
             break;
         case L'>':
             if      (peek_character() == L'=') {
@@ -76,7 +76,7 @@ Token Lexer::next_token() {
                 token.type = TokenType::LT;
             break;
         case L'-':
-        token.literal = L"-";
+            token.literal = L"-";
             token.type = TokenType::MINUS;
             break;
         case L'*':
@@ -122,9 +122,6 @@ Token Lexer::next_token() {
             break;
     }
 
-    token.line = line;
-    token.column = column;
-
     read_character();
 
     return token;
@@ -141,8 +138,10 @@ void Lexer::read_character() {
 
     column++;
 
-    if (read_position < source.length() && current_character == L'\n')
+    if (current_character == L'\n') {
         column = 0;
+        line++;
+    }
 }
 
 void Lexer::skip_whitespace() {
