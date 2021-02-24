@@ -41,7 +41,11 @@ Expression* Parser::parse_expression() {
     if (current_token.type == TokenType::INT)
         return parse_integer();
     if (current_token.type == TokenType::IF)
-        return parse_if_expression();    
+        return parse_if_expression();
+    if (current_token.type == TokenType::FOR)
+        return parse_for_expression();
+    if (current_token.type == TokenType::WHILE)
+        return parse_while_expression();
     return nullptr; 
 }
 
@@ -49,7 +53,8 @@ Expression* Parser::parse_assignment() {
     if (current_token.type != TokenType::IDENT)
         return nullptr;
     
-    Assignment *ident = new Assignment(current_token, NULL);
+    Assignment *ident = new Assignment();
+    ident->token = current_token;
     
     if (expected_token(TokenType::ASSIGN))
         advance_tokens();
@@ -75,6 +80,8 @@ Expression* Parser::parse_if_expression() {
         return nullptr;
     
     If* new_if = new If();
+
+    advance_tokens();
     new_if->condition = parse_expression();
     new_if->consequence = parse_block();
 
@@ -87,5 +94,42 @@ Expression* Parser::parse_if_expression() {
 }
 
 Block* Parser::parse_block() {
+    // TODO
     return nullptr;
+}
+
+Expression* Parser::parse_for_expression() {
+    For* new_for = new For();
+    
+    if (current_token.type != TokenType::FOR)
+        return nullptr;
+    advance_tokens();
+    new_for->init_var = parse_expression();
+    
+    if (current_token.type != TokenType::COLON)
+        return nullptr;
+    advance_tokens();
+    new_for->condition = parse_expression();
+
+    if (current_token.type != TokenType::COLON)
+        return nullptr;
+    advance_tokens();
+    new_for->iter_op = parse_expression();
+
+    new_for->subrutine = parse_block();
+
+    return new_for;
+}
+
+Expression* Parser::parse_while_expression() {
+    While* new_while = new While();
+
+    if (current_token.type != TokenType::WHILE)
+        return nullptr;
+    advance_tokens();
+    new_while->condition = parse_expression();
+
+    new_while->subrutine = parse_block();
+    
+    return new_while;
 }

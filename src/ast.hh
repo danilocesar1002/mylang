@@ -9,11 +9,13 @@ enum class ASTNodeType: int
     Expression,
     Assignment,
     Block,
+    For,
     If,
     Integer,
     LetStatement,
     Program,
-    Statement
+    Statement,
+    While
 };
 
 
@@ -34,7 +36,7 @@ public:
 class Assignment: public Expression
 {
 public:
-    Assignment(Token token, Expression *value);
+    Assignment();
 
     Expression *value;
 };
@@ -64,6 +66,26 @@ public:
     Expression* condition;
     Block* consequence;
     Block* alternative;
+};
+
+
+class For: public Expression
+{
+public:
+    For();
+    Expression* init_var;
+    Expression* condition;
+    Expression* iter_op;
+    Block* subrutine;
+};
+
+
+class While: public Expression
+{
+public:
+    While();
+    Expression* condition;
+    Block* subrutine;
 };
 
 

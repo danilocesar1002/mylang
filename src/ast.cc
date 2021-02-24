@@ -1,9 +1,7 @@
 #include "ast.hh"
 
-Assignment::Assignment(Token token, Expression *value) {
+Assignment::Assignment() {
     type = ASTNodeType::Assignment;
-    this->token = token;
-    this->value = value;
 }
 
 
@@ -26,4 +24,12 @@ Block::Block() {
 
 If::If() {
     type = ASTNodeType::If;
+}
+
+For::For() {
+    type = ASTNodeType::For;
+}
+
+While::While() {
+    type = ASTNodeType::While;
 }

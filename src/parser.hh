@@ -20,6 +20,8 @@ private:
     Expression* parse_assignment();
     Expression* parse_integer();
     Expression* parse_if_expression();
+    Expression* parse_for_expression();
+    Expression* parse_while_expression();
     Block* parse_block();
 };
 
