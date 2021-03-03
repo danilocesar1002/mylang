@@ -15,6 +15,7 @@ private:
     Token peek_token;
 
     void advance_tokens();
+    void skip_lines();
     bool expected_token(TokenType token_type);
     Expression* parse_expression();
     Expression* parse_assignment();

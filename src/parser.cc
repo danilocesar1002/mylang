@@ -26,6 +26,11 @@ void Parser::advance_tokens() {
     peek_token = lexer.next_token();
 }
 
+void Parser::skip_lines() {
+    while (current_token.type == TokenType::EOL)
+        advance_tokens();
+}
+
 bool Parser::expected_token(TokenType token_type) {
     if (peek_token.type == token_type) {
         advance_tokens();
@@ -36,17 +41,33 @@ bool Parser::expected_token(TokenType token_type) {
 }
 
 Expression* Parser::parse_expression() {
-    if (current_token.type == TokenType::IDENT && peek_token.type == TokenType::ASSIGN)
-        return parse_assignment();
-    if (current_token.type == TokenType::INT)
-        return parse_integer();
-    if (current_token.type == TokenType::IF)
-        return parse_if_expression();
-    if (current_token.type == TokenType::FOR)
-        return parse_for_expression();
-    if (current_token.type == TokenType::WHILE)
-        return parse_while_expression();
-    return nullptr; 
+    Expression *expression = nullptr;
+
+    switch (current_token.type) {
+        case TokenType::IDENT:
+            if (peek_token.type == TokenType::ASSIGN)
+                expression = parse_assignment();
+            break;
+        case TokenType::INT:
+            expression = parse_integer();
+            break;
+        case TokenType::IF:
+            expression = parse_if_expression();
+            break;
+        case TokenType::FOR:
+            expression = parse_for_expression();
+            break;
+        case TokenType::WHILE:
+            expression = parse_while_expression();
+            break;
+        default:
+            break;
+    }
+
+    if (expression != nullptr && current_token.type == TokenType::EOL)
+        skip_lines();
+
+    return expression; 
 }
 
 Expression* Parser::parse_assignment() {
@@ -79,7 +100,7 @@ Expression* Parser::parse_if_expression() {
     if (current_token.type != TokenType::IF)
         return nullptr;
     
-    If* new_if = new If();
+    If *new_if = new If();
 
     advance_tokens();
     new_if->condition = parse_expression();
@@ -99,7 +120,7 @@ Block* Parser::parse_block() {
 }
 
 Expression* Parser::parse_for_expression() {
-    For* new_for = new For();
+    For *new_for = new For();
     
     if (current_token.type != TokenType::FOR)
         return nullptr;
@@ -122,7 +143,7 @@ Expression* Parser::parse_for_expression() {
 }
 
 Expression* Parser::parse_while_expression() {
-    While* new_while = new While();
+    While *new_while = new While();
 
     if (current_token.type != TokenType::WHILE)
         return nullptr;
