@@ -3,7 +3,7 @@
 
 
 Parser::Parser(Lexer lexer_) : lexer(lexer_) {
-
+    ident_level = 0;
     advance_tokens();
     advance_tokens();
 };
@@ -40,8 +40,33 @@ bool Parser::expected_token(TokenType token_type) {
     return false;
 }
 
+void Parser::skip_tabs() {
+    /*
+     * This should be the only method that manipulates ident_level.
+     */
+
+    unsigned int tabs;
+    for (tabs = 0; current_token.type == TokenType::TAB; tabs++)
+        advance_tokens();
+    
+    ident_level = tabs;
+}
+
+bool Parser::verify_ident_level() {
+    /*
+     * This function assumes that nobody else touched the tokens since the last
+     * expression was parsed.
+     */
+
+    unsigned int cur_level = ident_level;
+    skip_tabs();
+    return cur_level == ident_level;
+}
+
 Expression* Parser::parse_expression() {
     Expression *expression = nullptr;
+
+    verify_ident_level();
 
     switch (current_token.type) {
         case TokenType::IDENT:
@@ -64,8 +89,11 @@ Expression* Parser::parse_expression() {
             break;
     }
 
+    if (current_token.type != TokenType::EOL && current_token.type != TokenType::EOFILE)
+        return nullptr; // EOL after expression rule
+
     if (expression != nullptr && current_token.type == TokenType::EOL)
-        skip_lines();
+        skip_lines(); // skip any number of lines after an expression
 
     return expression; 
 }
@@ -115,7 +143,14 @@ Expression* Parser::parse_if_expression() {
 }
 
 Block* Parser::parse_block() {
-    // TODO
+    Block *block = new Block();
+    unsigned int past_ident_level = ident_level;
+
+    do
+        block->expressions.push_back(parse_expression());
+    while (past_ident_level < ident_level);
+    
+    
     return nullptr;
 }
 
