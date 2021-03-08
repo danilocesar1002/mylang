@@ -16,10 +16,8 @@ private:
     unsigned int ident_level;
 
     void advance_tokens();
-    void skip_lines();
     void skip_tabs();
     bool expected_token(TokenType token_type);
-    bool verify_ident_level();
     Expression* parse_expression();
     Expression* parse_assignment();
     Expression* parse_integer();

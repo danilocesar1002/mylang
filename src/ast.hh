@@ -50,7 +50,7 @@ public:
 };
 
 
-class Block: public ASTNode
+class Block: public Expression
 {
 public:
     std::vector<Expression* > expressions;

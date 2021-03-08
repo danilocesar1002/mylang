@@ -45,6 +45,7 @@ Token Lexer::next_token() {
         case L'\n':
             token.literal = L"\n";
             token.type = TokenType::EOL;
+            skip_lines();
             break;
         case L'>':
             if      (peek_character() == L'=') {
@@ -146,6 +147,11 @@ void Lexer::read_character() {
 
 void Lexer::skip_whitespace() {
     while (current_character == L' ')
+        read_character();
+}
+
+void Lexer::skip_lines() {
+    while (peek_character() == L' ')
         read_character();
 }
 

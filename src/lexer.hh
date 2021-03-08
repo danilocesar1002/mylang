@@ -13,6 +13,7 @@ public:
 private:
     void read_character();
     void skip_whitespace();
+    void skip_lines();
     wchar_t peek_character();
 
     bool is_number(wchar_t chr);

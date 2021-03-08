@@ -26,11 +26,6 @@ void Parser::advance_tokens() {
     peek_token = lexer.next_token();
 }
 
-void Parser::skip_lines() {
-    while (current_token.type == TokenType::EOL)
-        advance_tokens();
-}
-
 bool Parser::expected_token(TokenType token_type) {
     if (peek_token.type == token_type) {
         advance_tokens();
@@ -41,32 +36,15 @@ bool Parser::expected_token(TokenType token_type) {
 }
 
 void Parser::skip_tabs() {
-    /*
-     * This should be the only method that manipulates ident_level.
-     */
-
     unsigned int tabs;
-    for (tabs = 0; current_token.type == TokenType::TAB; tabs++)
+    for (tabs = 0; tabs < ident_level && current_token.type == TokenType::TAB; tabs++)
         advance_tokens();
     
     ident_level = tabs;
 }
 
-bool Parser::verify_ident_level() {
-    /*
-     * This function assumes that nobody else touched the tokens since the last
-     * expression was parsed.
-     */
-
-    unsigned int cur_level = ident_level;
-    skip_tabs();
-    return cur_level == ident_level;
-}
-
 Expression* Parser::parse_expression() {
     Expression *expression = nullptr;
-
-    verify_ident_level();
 
     switch (current_token.type) {
         case TokenType::IDENT:
@@ -91,9 +69,10 @@ Expression* Parser::parse_expression() {
 
     if (current_token.type != TokenType::EOL && current_token.type != TokenType::EOFILE)
         return nullptr; // EOL after expression rule
-
-    if (expression != nullptr && current_token.type == TokenType::EOL)
-        skip_lines(); // skip any number of lines after an expression
+    else
+        advance_tokens(); // just pass the EOL
+    
+    skip_tabs();
 
     return expression; 
 }
@@ -143,15 +122,27 @@ Expression* Parser::parse_if_expression() {
 }
 
 Block* Parser::parse_block() {
+    if (current_token.type != TokenType::TAB)
+        return nullptr; // at least one expression inside the block
+    
     Block *block = new Block();
     unsigned int past_ident_level = ident_level;
 
-    do
+    // we already know that current_token.type == TokenType::TAB
+    if      (peek_token.type == TokenType::TAB) {
+        return nullptr; // only one tab of difference between levels
+    }
+    else if (peek_token.type != TokenType::TAB) {
+        advance_tokens();
+        // updating ident_level is necessary for parsing blocks inside this block
+        ident_level = ident_level + 1;
         block->expressions.push_back(parse_expression());
-    while (past_ident_level < ident_level);
+    }
+
+    while (past_ident_level + 1 == ident_level)
+        block->expressions.push_back(parse_expression());
     
-    
-    return nullptr;
+    return block;
 }
 
 Expression* Parser::parse_for_expression() {
