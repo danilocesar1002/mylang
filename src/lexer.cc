@@ -151,7 +151,7 @@ void Lexer::skip_whitespace() {
 }
 
 void Lexer::skip_lines() {
-    while (peek_character() == L' ')
+    while (peek_character() == L'\n')
         read_character();
 }
 
