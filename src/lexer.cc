@@ -151,8 +151,10 @@ void Lexer::skip_whitespace() {
 }
 
 void Lexer::skip_lines() {
-    while (peek_character() == L'\n')
+    while (peek_character() == L'\n') {
         read_character();
+        line++;
+    }
 }
 
 wchar_t Lexer::peek_character() {
@@ -178,19 +180,24 @@ bool Lexer::is_letter(wchar_t chr) {
 
 std::wstring Lexer::read_number() {
     unsigned int first = position;
+    std::wstring num = L"";
 
-    while (is_number(current_character))
+    while (is_number(current_character)) {
+        num += current_character;
         read_character();
+    }
     
-    return source.substr(first, position);
+    return num;
 }
 
 std::wstring Lexer::read_identifier() {
     unsigned int first = position;
+    std::wstring ident = L"";
 
-    do
+    do {
+        ident += current_character;
         read_character();
-    while (is_letter(current_character) || is_number(current_character));
+    } while (is_letter(current_character) || is_number(current_character));
     
-    return source.substr(first, position);
+    return ident;
 }

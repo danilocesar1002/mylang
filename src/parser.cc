@@ -1,7 +1,6 @@
 #include "parser.hh"
 #include "ast.hh"
 
-
 Parser::Parser(Lexer lexer_) : lexer(lexer_) {
     ident_level = 0;
     advance_tokens();
@@ -13,8 +12,9 @@ Program Parser::parse_program() {
 
     while (current_token.type != TokenType::EOFILE) {
         Expression *expression = parse_expression();
-
-        if (expression != nullptr)
+        if (expression == nullptr) // there is an error
+            break;
+        else
             program.expressions.push_back(expression);
     }
 
@@ -67,10 +67,8 @@ Expression* Parser::parse_expression() {
             break;
     }
 
-    if (current_token.type != TokenType::EOL && current_token.type != TokenType::EOFILE)
-        return nullptr; // EOL after expression rule
-    else
-        advance_tokens(); // just pass the EOL
+    if (current_token.type == TokenType::EOL)
+        advance_tokens();
     
     skip_tabs();
 

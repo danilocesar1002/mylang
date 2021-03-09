@@ -7,21 +7,16 @@
 #include <iostream>
 
 int main () {
-    Lexer lexer = Lexer(L"abc = 4");
+    Lexer lexer = Lexer(L"para a = 1 : a = 5 : a = 2 \n \t b = 1");
+    std::wcout << L"lexed\n";
+
     Parser parser = Parser(lexer);
+    std::wcout << L"initialized parser\n";
 
     Program program = parser.parse_program();
+    std::wcout << L"parsed\n";
 
-    std::wcout << program.expressions.size() << L'\n';
-    
-    Expression *expression = program.expressions[0];
-    std::wcout << L"NodeType: " << (int)expression->type << L'\n';
-    Assignment *ident = static_cast<Assignment*>(expression);
-    
-    Expression *value = ident->value;
-    std::wcout << L"ValueType: " << (int)value->type << L'\n';
-    Integer *integer = static_cast<Integer*>(value);
-    std::wcout << L"Value: " << integer->value << L'\n';
-    
+    std::wcout << (int)program.expressions[0]->type << L'\n';
+
     return 0;
 }
