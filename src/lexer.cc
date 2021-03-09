@@ -179,7 +179,6 @@ bool Lexer::is_letter(wchar_t chr) {
 }
 
 std::wstring Lexer::read_number() {
-    unsigned int first = position;
     std::wstring num = L"";
 
     while (is_number(current_character)) {
@@ -191,7 +190,6 @@ std::wstring Lexer::read_number() {
 }
 
 std::wstring Lexer::read_identifier() {
-    unsigned int first = position;
     std::wstring ident = L"";
 
     do {
