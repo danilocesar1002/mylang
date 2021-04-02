@@ -33,3 +33,7 @@ For::For() {
 While::While() {
     type = ASTNodeType::While;
 }
+
+Call::Call() {
+    type = ASTNodeType::Call;
+}

@@ -15,7 +15,8 @@ enum class ASTNodeType: int
     LetStatement,
     Program,
     Statement,
-    While
+    While,
+    Call
 };
 
 
@@ -56,6 +57,14 @@ public:
     std::vector<Expression* > expressions;
 
     Block();
+};
+
+
+class Call: public Expression
+{
+public:
+    Call();
+    Block* params;
 };
 
 
